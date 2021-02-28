@@ -13,6 +13,7 @@ namespace Gesdinet\JWTRefreshTokenBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -65,6 +66,17 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('doctrine_mappings')
                     ->info('When true, resolving of Doctrine mapping is done automatically to use either ORM or ODM object manager')
                     ->defaultTrue()
+                ->arrayNode('cookie')
+                    ->children()
+                        ->enumNode('sameSite')
+                            ->values([Cookie::SAMESITE_NONE, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT])
+                            ->defaultValue(Cookie::SAMESITE_LAX)
+                        ->end()
+                        ->scalarNode('path')->defaultValue('/')->cannotBeEmpty()->end()
+                        ->scalarNode('domain')->defaultNull()->end()
+                        ->scalarNode('secure')->defaultTrue()->end()
+                        ->scalarNode('httpOnly')->defaultTrue()->end()
+                    ->end()
                 ->end()
             ->end();
 
