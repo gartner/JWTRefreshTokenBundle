@@ -78,6 +78,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('doctrine_mappings')
                     ->info('When true, resolving of Doctrine mapping is done automatically to use either ORM or ODM object manager')
                     ->defaultTrue()
+                ->end()
                 ->arrayNode('cookie')
                     ->children()
                         ->enumNode('sameSite')
